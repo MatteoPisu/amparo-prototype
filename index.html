@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Amparo</title>
+  <meta name="theme-color" content="#F4F1EA">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex">
+  <meta name="apple-mobile-web-app-title" content="Amparo">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="bar">
+    <button class="wordmark" type="button" data-go="landing" aria-label="Amparo, back to start">Amparo</button>
+    <div class="bar-right">
+      <button class="btn small" type="button" id="sound" data-act="sound">Sound off</button>
+      <button class="btn small qe" type="button" id="qe" data-act="exit">Quick Exit</button>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1"></main>
+
+  <footer class="foot">
+    <button class="linkbtn" type="button" id="foot-crisis" data-go="crisis">Crisis resources</button>
+    <button class="linkbtn" type="button" data-go="providers">TABP and providers</button>
+  </footer>
+
+  <noscript><p class="wrap">This page needs JavaScript to run.</p></noscript>
+  <script src="app.js"></script>
+</body>
+</html>
