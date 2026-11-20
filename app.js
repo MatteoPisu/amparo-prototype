@@ -8,6 +8,18 @@
   var QUICK_EXIT_URL = 'https://www.google.com'; // where Quick Exit sends the person
   var TOUR_KEY = 'k';                             // neutral name for the "tour seen" value
 
+  /* The logo file. The logo is icons/abp-logo.png (a better SVG from TABP can replace it: change this line). If it is missing,
+     the name "The Angel Band Project" shows as text instead. */
+  var LOGO_SRC = 'icons/abp-logo.png';
+  var LOGO_ALT = 'The Angel Band Project';
+
+  var THEMES = [
+    { id: 'angel', name: 'The Angel Band Project', desc: 'Slate blue and gold, from the TABP website.', meta: '#FFFFFF' },
+    { id: 'calming', name: 'Calming', desc: 'Cool, quiet blues.', meta: '#F1F5F8' },
+    { id: 'relaxing', name: 'Relaxing', desc: 'Soft lavender and warm grey.', meta: '#F5F2F8' },
+    { id: 'upbeat', name: 'Upbeat', desc: 'Warm and a little brighter.', meta: '#FFF6E8' }
+  ];
+
   var SAMPLE = "Sample. Real audio comes from TABP's music therapists.";
 
   var main = document.getElementById('main');
@@ -23,7 +35,7 @@
   };
 
   /* ---------- State (memory only) ---------- */
-  var state = { screen: 'landing', need: null, chip: null, sound: false, tourStep: 0, item: null, card: 0, rated: null };
+  var state = { theme: 'angel', prev: 'need', screen: 'landing', need: null, chip: null, sound: false, tourStep: 0, item: null, card: 0, rated: null };
   var timers = { card: null };
 
   /* ---------- Content ---------- */
@@ -147,10 +159,32 @@
       '</ul>';
   }
 
+  /* ---------- Themes (memory only: never stored, resets each visit) ---------- */
+  function applyTheme(id) {
+    var th = THEMES.filter(function (t) { return t.id === id; })[0] || THEMES[0];
+    state.theme = th.id;
+    document.documentElement.setAttribute('data-theme', th.id);
+    var m = document.querySelector('meta[name="theme-color"]');
+    if (m) m.setAttribute('content', th.meta);
+  }
+  function partner(label) {
+    return '<p class="partner"><span>' + label + '</span><img class="logo" src="' + LOGO_SRC + '" alt="' + LOGO_ALT + '"></p>';
+  }
+  // If the logo file is missing, show the name as text instead of a broken image.
+  main.addEventListener('error', function (e) {
+    var el = e.target;
+    if (el && el.tagName === 'IMG' && el.classList.contains('logo')) {
+      var sp = document.createElement('span');
+      sp.className = 'logo-fallback'; sp.textContent = LOGO_ALT;
+      el.replaceWith(sp);
+    }
+  }, true);
+
   /* ---------- Navigation: in-page state only, history.replaceState only ---------- */
   function go(name) {
     stopBreathing();
     if (timers.card) { clearTimeout(timers.card); timers.card = null; }
+    if (name === 'theme' && state.screen !== 'theme') state.prev = state.screen;
     if (name === 'tour') state.tourStep = 0;
     if (name === 'between') state.card = 0;
     if (name === 'after') state.rated = null;
@@ -184,6 +218,7 @@
       '<div class="stack"><button class="btn primary" type="button" data-go="need">Continue</button>' + tourBtn + '</div>' +
       '<p class="small">A self-care tool informed by music therapy, not a replacement for therapy. <button class="linkbtn" type="button" data-go="learn">Learn more</button></p>' +
       '<p>Need urgent help? <button class="linkbtn" type="button" data-go="crisis">Crisis resources</button></p>' +
+      partner('Built with') +
       '<p class="small">Prototype. All content is sample.</p>' };
   };
 
@@ -192,7 +227,7 @@
     return { html:
       '<h1>Quick tour</h1>' +
       '<p class="small">' + (i + 1) + ' of ' + TOUR.length + '</p>' +
-      '<div class="panel"><svg viewBox="0 0 120 120" fill="none" stroke="#2F6F73" stroke-width="4" aria-hidden="true" focusable="false">' + p.svg + '</svg>' +
+      '<div class="panel"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="4" aria-hidden="true" focusable="false">' + p.svg + '</svg>' +
       '<p class="panel-text" data-focus>' + p.t + '</p></div>' +
       '<div class="row"><button class="btn primary" type="button" data-act="tour-next">' + (last ? 'Done' : 'Next') + '</button>' +
       '<button class="btn" type="button" data-act="tour-skip">Skip</button></div>' };
@@ -418,7 +453,7 @@
 
   SCREENS.providers = function () {
     return { html:
-      '<h1>TABP programs and providers</h1>' +
+      '<h1>TABP programs and providers</h1>' + partner('Programs from') +
       '<p class="lead">The Angel Band Project offers free, trauma-informed music therapy for survivors, in small groups at partner agencies.</p>' +
       '<p class="small">Sample list. TABP will supply the final contacts and links.</p>' +
       '<ul class="crisis-list">' +
@@ -431,7 +466,7 @@
 
   SCREENS.learn = function () {
     return { html:
-      '<h1>About Amparo</h1>' +
+      '<h1>About Amparo</h1>' + partner('Built with') +
       '<p class="small">Draft; TABP to review. This is a prototype and all content is sample.</p>' +
       '<h2>What Amparo is</h2>' +
       '<p>Amparo is a self-care tool informed by music therapy. It is not therapy. It is not monitored, and nothing you do here is saved.</p>' +
@@ -445,6 +480,24 @@
       '<div class="row"><button class="btn primary" type="button" data-go="landing">Back to start</button></div>' };
   };
 
+  SCREENS.theme = function () {
+    var cards = THEMES.map(function (t) {
+      return '<label class="themecard" data-theme-preview="' + t.id + '"><input type="radio" name="theme" value="' + t.id + '"' + (t.id === state.theme ? ' checked' : '') + '>' +
+        '<span class="tc-body"><strong>' + t.name + '</strong><span class="tc-desc">' + t.desc + '</span>' +
+        '<span class="tc-dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span></span></label>';
+    }).join('');
+    return { html:
+      '<h1>Choose a look</h1>' +
+      '<p class="lead">Pick the colours that feel best to you. This only lasts for this visit and is not saved.</p>' +
+      '<fieldset><legend class="sr">Colour theme</legend><div class="themes">' + cards + '</div></fieldset>' +
+      '<div class="row"><button class="btn primary" type="button" data-act="theme-done">Done</button></div>',
+      after: function () {
+        main.querySelectorAll('input[name="theme"]').forEach(function (i) {
+          i.addEventListener('change', function () { applyTheme(i.value); });
+        });
+      } };
+  };
+
   SCREENS.done = function () {
     return { html:
       '<h1>Take care of yourself.</h1>' +
@@ -455,6 +508,10 @@
   /* ---------- Click handling ---------- */
   var ACTIONS = {
     exit: quickExit,
+    'theme-done': function () {
+      var back = ['breathing', 'activity', 'notice', 'theme'].indexOf(state.prev) > -1 ? 'need' : state.prev;
+      go(back);
+    },
     sound: function () { setSound(!state.sound); },
     'tour-next': function () { if (state.tourStep < TOUR.length - 1) { state.tourStep++; render(); } else { tour.set(); go('need'); } },
     'tour-skip': function () { tour.set(); go('need'); },
@@ -520,5 +577,6 @@
     if (fn) fn(t, e);
   });
 
+  applyTheme(state.theme);
   render();
 })();
