@@ -1,17 +1,33 @@
 /* Amparo prototype styles. System fonts only. No external requests. */
-:root {
-  --bg: #F4F1EA;
-  --ink: #1E2B33;
-  --ink2: #4A5860;
-  --teal: #2F6F73;
-  --teal-hover: #1E4F52;
-  --soft: #DCEBEA;
-  --mid: #BBD6D4;
-  --sand: #EFE3CF;
-  --lav: #E4E0EE;
-  --sage: #E3EBD9;
-  --outline: #5F7A7B;
-  --divider: #D5D2C6;
+/* ---------- Themes ----------
+   The page uses these variables everywhere. A theme is just a set of values.
+   Each palette was checked: text 4.5:1 or better, control edges 3:1 or better.
+   Chosen in memory only, so it resets on every visit (nothing is stored). */
+:root, [data-theme="angel"], [data-theme-preview="angel"] {
+  /* THE ANGEL BAND PROJECT (default). PLACEHOLDER: these are the prototype's
+     original colours. Replace these values with TABP's real brand hex codes. */
+  --bg: #F4F1EA; --card: #FBF9F5; --ink: #1E2B33; --ink2: #4A5860;
+  --teal: #2F6F73; --teal-hover: #1E4F52;
+  --soft: #DCEBEA; --mid: #BBD6D4; --sand: #EFE3CF; --lav: #E4E0EE; --sage: #E3EBD9;
+  --outline: #5F7A7B; --divider: #D5D2C6;
+}
+[data-theme="calming"], [data-theme-preview="calming"] {
+  --bg: #F1F5F8; --card: #FAFCFD; --ink: #1B2A38; --ink2: #475866;
+  --teal: #2C5F8A; --teal-hover: #1F4767;
+  --soft: #DDE9F3; --mid: #BCD3E6; --sand: #E3EEEC; --lav: #E4E7F1; --sage: #E8EDF0;
+  --outline: #5B7285; --divider: #CFD8DF;
+}
+[data-theme="relaxing"], [data-theme-preview="relaxing"] {
+  --bg: #F5F2F8; --card: #FBF9FD; --ink: #2A2433; --ink2: #5A5066;
+  --teal: #5B4B8A; --teal-hover: #43366B;
+  --soft: #E6E0F0; --mid: #CFC4E3; --sand: #E9E4D8; --lav: #DDE8E3; --sage: #EBDDE4;
+  --outline: #74688A; --divider: #D9D3E0;
+}
+[data-theme="upbeat"], [data-theme-preview="upbeat"] {
+  --bg: #FFF6E8; --card: #FFFBF3; --ink: #2B2118; --ink2: #5E4B3A;
+  --teal: #B0451A; --teal-hover: #8A3512;
+  --soft: #FFE6C4; --mid: #FFCF99; --sand: #FBD9D0; --lav: #FFF0B8; --sage: #E7F0C8;
+  --outline: #80603F; --divider: #E8D8C0;
 }
 
 * { box-sizing: border-box; }
@@ -129,7 +145,7 @@ legend { font-size: .9375rem; color: var(--ink2); padding: 0; margin-bottom: .4r
 /* Cards */
 .shelf { margin: 1.5rem 0; }
 .card {
-  background: #FBF9F5; border: 1px solid var(--divider); border-radius: 16px;
+  background: var(--card); border: 1px solid var(--divider); border-radius: 16px;
   padding: 1rem 1.1rem; margin: 0 0 1rem;
 }
 .meta { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; color: var(--ink2); font-size: .9375rem; margin: 0 0 .25rem; }
@@ -144,7 +160,7 @@ legend { font-size: .9375rem; color: var(--ink2); padding: 0; margin-bottom: .4r
   width: 100%; min-height: 44px; padding: .5rem 1rem; font: inherit; color: var(--ink);
   background: #fff; border: 2px solid var(--outline); border-radius: 999px;
 }
-blockquote.redirect { margin: 1rem 0; padding: .75rem 1rem; border-left: 4px solid var(--teal); background: #FBF9F5; }
+blockquote.redirect { margin: 1rem 0; padding: .75rem 1rem; border-left: 4px solid var(--teal); background: var(--card); }
 blockquote.redirect p { margin: 0; }
 
 /* Tour */
@@ -153,7 +169,7 @@ blockquote.redirect p { margin: 0; }
   box-shadow: 6px 6px 0 var(--divider); padding: 1.25rem; margin: 1.25rem 6px 1.5rem 0;
   display: flex; flex-direction: column; align-items: center; gap: 1rem; text-align: center;
 }
-.panel svg { width: 120px; height: 120px; }
+.panel svg { width: 120px; height: 120px; color: var(--teal); }
 .panel-text { font-family: Georgia, "Times New Roman", serif; font-size: 1.35rem; margin: 0; }
 
 /* Breathing */
@@ -186,7 +202,7 @@ blockquote.redirect p { margin: 0; }
 
 /* Crisis */
 .crisis-list { list-style: none; padding: 0; margin: 1rem 0; }
-.crisis-list li { background: #FBF9F5; border: 1px solid var(--divider); border-radius: 16px; padding: .9rem 1.1rem; margin-bottom: .75rem; }
+.crisis-list li { background: var(--card); border: 1px solid var(--divider); border-radius: 16px; padding: .9rem 1.1rem; margin-bottom: .75rem; }
 .crisis-list .rname { display: block; font-weight: 700; margin-bottom: .25rem; }
 .crisis-list .row { margin-bottom: 0; align-items: center; }
 .num { font-weight: 600; }
@@ -208,3 +224,28 @@ blockquote.redirect p { margin: 0; }
 }
 
 .note { margin-top: 1rem; }
+
+/* Partner logo (The Angel Band Project). Put the logo file at icons/abp-logo.svg */
+.partner { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin: 1.25rem 0; color: var(--ink2); font-size: .9375rem; }
+.partner .logo, .logo { display: block; height: 44px; width: auto; max-width: 100%; }
+.logo-fallback { font-family: Georgia, "Times New Roman", serif; font-weight: 600; font-size: 1.1rem; color: var(--ink); }
+
+/* Theme picker */
+.themes { display: grid; grid-template-columns: 1fr; gap: .75rem; margin: 1.25rem 0; }
+.themecard { position: relative; display: block; cursor: pointer; }
+.themecard input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.tc-body {
+  display: block; min-height: 44px; padding: 1rem 1.1rem; border: 1px solid var(--outline); border-radius: 16px;
+  background: var(--bg); color: var(--ink);
+}
+.tc-body strong { display: block; font-family: Georgia, "Times New Roman", serif; font-size: 1.2rem; margin-bottom: .15rem; }
+.tc-body .tc-desc { display: block; color: var(--ink2); margin-bottom: .6rem; }
+.tc-dots { display: flex; gap: .4rem; }
+.tc-dots i { display: block; width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--outline); }
+.tc-dots i:nth-child(1) { background: var(--teal); }
+.tc-dots i:nth-child(2) { background: var(--mid); }
+.tc-dots i:nth-child(3) { background: var(--soft); }
+.tc-dots i:nth-child(4) { background: var(--sand); }
+.themecard input:checked + .tc-body { border: 3px solid var(--teal); padding: calc(1rem - 2px) calc(1.1rem - 2px); }
+.themecard input:focus-visible + .tc-body { outline: 3px solid var(--teal); outline-offset: 2px; }
+@media (min-width: 720px) { .themes { grid-template-columns: 1fr 1fr; } }
