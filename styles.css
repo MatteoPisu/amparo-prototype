@@ -4,30 +4,31 @@
    Each palette was checked: text 4.5:1 or better, control edges 3:1 or better.
    Chosen in memory only, so it resets on every visit (nothing is stored). */
 :root, [data-theme="angel"], [data-theme-preview="angel"] {
-  /* THE ANGEL BAND PROJECT (default). PLACEHOLDER: these are the prototype's
-     original colours. Replace these values with TABP's real brand hex codes. */
-  --bg: #F4F1EA; --card: #FBF9F5; --ink: #1E2B33; --ink2: #4A5860;
-  --teal: #2F6F73; --teal-hover: #1E4F52;
-  --soft: #DCEBEA; --mid: #BBD6D4; --sand: #EFE3CF; --lav: #E4E0EE; --sage: #E3EBD9;
-  --outline: #5F7A7B; --divider: #D5D2C6;
+  /* THE ANGEL BAND PROJECT (default). Colours taken from angelbandproject.org:
+     slate blue (their logo and "Our mission" box), gold line, dark grey text, white page.
+     The primary blue is their #537E96 darkened to #3F6781 so white button text passes 4.5:1. */
+  --bg: #FFFFFF; --card: #F5F8FA; --ink: #333333; --ink2: #4F5B66;
+  --teal: #3F6781; --teal-hover: #2E4E64;
+  --soft: #E3EAEE; --mid: #C5D6E0; --sand: #FCEBC9; --lav: #E6EDF1; --sage: #F6E1E1;
+  --outline: #6A8294; --divider: #D6DEE4; --accent: #FDB548;
 }
 [data-theme="calming"], [data-theme-preview="calming"] {
   --bg: #F1F5F8; --card: #FAFCFD; --ink: #1B2A38; --ink2: #475866;
   --teal: #2C5F8A; --teal-hover: #1F4767;
   --soft: #DDE9F3; --mid: #BCD3E6; --sand: #E3EEEC; --lav: #E4E7F1; --sage: #E8EDF0;
-  --outline: #5B7285; --divider: #CFD8DF;
+  --outline: #5B7285; --divider: #CFD8DF; --accent: #CFD8DF;
 }
 [data-theme="relaxing"], [data-theme-preview="relaxing"] {
   --bg: #F5F2F8; --card: #FBF9FD; --ink: #2A2433; --ink2: #5A5066;
   --teal: #5B4B8A; --teal-hover: #43366B;
   --soft: #E6E0F0; --mid: #CFC4E3; --sand: #E9E4D8; --lav: #DDE8E3; --sage: #EBDDE4;
-  --outline: #74688A; --divider: #D9D3E0;
+  --outline: #74688A; --divider: #D9D3E0; --accent: #D9D3E0;
 }
 [data-theme="upbeat"], [data-theme-preview="upbeat"] {
   --bg: #FFF6E8; --card: #FFFBF3; --ink: #2B2118; --ink2: #5E4B3A;
   --teal: #B0451A; --teal-hover: #8A3512;
   --soft: #FFE6C4; --mid: #FFCF99; --sand: #FBD9D0; --lav: #FFF0B8; --sage: #E7F0C8;
-  --outline: #80603F; --divider: #E8D8C0;
+  --outline: #80603F; --divider: #E8D8C0; --accent: #E8D8C0;
 }
 
 * { box-sizing: border-box; }
@@ -64,7 +65,7 @@ h1:focus, h2:focus, main:focus { outline: none; }
   display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .5rem;
   padding: .6rem 1rem;
   background: var(--bg);
-  border-bottom: 1px solid var(--divider);
+  border-bottom: 3px solid var(--accent);
 }
 .bar-right { display: flex; gap: .5rem; flex-wrap: wrap; margin-left: auto; justify-content: flex-end; }
 .wordmark {
@@ -227,7 +228,7 @@ blockquote.redirect p { margin: 0; }
 
 /* Partner logo (The Angel Band Project). Put the logo file at icons/abp-logo.svg */
 .partner { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin: 1.25rem 0; color: var(--ink2); font-size: .9375rem; }
-.partner .logo, .logo { display: block; height: 44px; width: auto; max-width: 100%; }
+.partner .logo, .logo { display: block; height: 64px; width: auto; max-width: 100%; }
 .logo-fallback { font-family: Georgia, "Times New Roman", serif; font-weight: 600; font-size: 1.1rem; color: var(--ink); }
 
 /* Theme picker */
